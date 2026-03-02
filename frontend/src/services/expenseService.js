@@ -1,41 +1,36 @@
-import axios from "axios";
-
-// Change this only if your backend URL changes
-const API_BASE_URL = "http://localhost:5000/api/expenses";
+import api from "./api";
 
 /**
  * Get all expenses
- * Supports filters: category, startDate, endDate
  */
-export const getExpenses = async (params = {}) => {
-  return axios.get(API_BASE_URL, { params });
+export const getExpenses = (params = {}) => {
+  return api.get("/expenses", { params });
 };
 
 /**
  * Add new expense
- * data: { title, amount, category, date? }
  */
-export const addExpense = async (data) => {
-  return axios.post(API_BASE_URL, data);
+export const addExpense = (data) => {
+  return api.post("/expenses", data);
 };
 
 /**
- * Update an expense
+ * Update expense
  */
-export const updateExpense = async (id, data) => {
-  return axios.put(`${API_BASE_URL}/${id}`, data);
+export const updateExpense = (id, data) => {
+  return api.put(`/expenses/${id}`, data);
 };
 
 /**
- * Delete an expense
+ * Delete expense
  */
-export const deleteExpense = async (id) => {
-  return axios.delete(`${API_BASE_URL}/${id}`);
+export const deleteExpense = (id) => {
+  return api.delete(`/expenses/${id}`);
 };
 
 /**
- * Get category-wise analytics
+ * Get analytics
  */
-export const getAnalytics = async () => {
-  return axios.get(`${API_BASE_URL}/analytics/category`);
+export const getAnalytics = () => {
+  return api.get("/expenses/analytics/category");
 };

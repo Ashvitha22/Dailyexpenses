@@ -1,60 +1,46 @@
-import { useEffect, useState } from "react";
-import ExpenseForm from "./components/ExpenseForm";
-import ExpenseList from "./components/ExpenseList";
-import FilterBar from "./components/FilterBar";
-import Analytics from "./components/Analytics";
-import { getExpenses } from "./services/expenseService";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import Home         from "./pages/Home";
+import Login        from "./pages/Login";
+import Register     from "./pages/Register";
+import Dashboard    from "./pages/Dashboard";
+import Analytics    from "./pages/Analytics";
+import Budget       from "./pages/Budget";
+import Goals        from "./pages/Goals";
+import AddExpense   from "./pages/AddExpense";
+import Profile      from "./pages/Profile";
+import Achievements from "./pages/Achievements";
+import NetWorth     from "./pages/NetWorth";
+import Income from "./pages/Income";
+// inside your routes:
+
+
+const Protected = ({ children }) => {
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/login" replace />;
+};
 
 export default function App() {
-  const [expenses, setExpenses] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Load expenses (with optional filters)
-  const loadExpenses = async (params = {}) => {
-    try {
-      setLoading(true);
-      const res = await getExpenses(params);
-      setExpenses(res.data);
-    } catch (error) {
-      console.error("Failed to load expenses", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Initial load
-  useEffect(() => {
-    loadExpenses();
-  }, []);
-
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-5xl mx-auto space-y-6">
-        
-        {/* Header */}
-        <h1 className="text-3xl font-bold text-center">
-          Daily Expense Categorizer
-        </h1>
+    <Routes>
+      {/* Public */}
+      <Route path="/"         element={<Home />} />
+      <Route path="/login"    element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
-        {/* Analytics Section */}
-        <Analytics />
+      {/* Protected */}
+      <Route path="/dashboard"    element={<Protected><Dashboard /></Protected>} />
+      <Route path="/analytics"    element={<Protected><Analytics /></Protected>} />
+      <Route path="/budgets"      element={<Protected><Budget /></Protected>} />
+      <Route path="/goals"        element={<Protected><Goals /></Protected>} />
+      <Route path="/add-expense"  element={<Protected><AddExpense /></Protected>} />
+      <Route path="/profile"      element={<Protected><Profile /></Protected>} />
+      <Route path="/achievements" element={<Protected><Achievements /></Protected>} />
+      <Route path="/networth"     element={<Protected><NetWorth /></Protected>} />
+      <Route path="/income" element={<Income />} />
 
-        {/* Filter Section */}
-        <FilterBar onFilter={loadExpenses} />
-
-        {/* Add Expense */}
-        <ExpenseForm refresh={loadExpenses} />
-
-        {/* Expense List */}
-        {loading ? (
-          <div className="text-center text-gray-500">
-            Loading expenses...
-          </div>
-        ) : (
-          <ExpenseList expenses={expenses} refresh={loadExpenses} />
-        )}
-
-      </div>
-    </div>
+      {/* Fallback */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }

@@ -1,3 +1,139 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
+
+:root {
+  --bg:          #0A0A0F;
+  --bg-surface:  #111118;
+  --bg-card:     rgba(17,17,26,0.85);
+  --bg-elevated: #16161F;
+
+  --text:        #F0EBE1;
+  --text-2:      #8A8A9E;
+  --text-3:      #52526A;
+  --text-inv:    #0A0A0F;
+
+  --accent:      #5EEAD4;
+  --accent-bg:   rgba(94,234,212,0.10);
+  --accent-bdr:  rgba(94,234,212,0.22);
+
+  --ok:          #4ADE80;
+  --ok-bg:       rgba(74,222,128,0.10);
+  --warn:        #FBBF24;
+  --warn-bg:     rgba(251,191,36,0.10);
+  --err:         #F87171;
+  --err-bg:      rgba(248,113,113,0.10);
+
+  --bdr:         rgba(240,235,225,0.08);
+  --bdr-2:       rgba(240,235,225,0.14);
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-xl: 24px;
+
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+
+  --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.65);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar       { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bdr-2); border-radius: 99px; }
+
+/* ── reusable atoms ── */
+.label {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.input-field {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--bdr);
+  border-radius: var(--r-md);
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.input-field::placeholder { color: var(--text-3); }
+.input-field:focus {
+  border-color: var(--accent-bdr);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.btn-primary {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-inv);
+  background: var(--accent);
+  border: none;
+  border-radius: var(--r-md);
+  padding: 11px 24px;
+  cursor: pointer;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-primary:hover  { background: #2DD4BF; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(94,234,212,0.25); }
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+.btn-ghost {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-2);
+  background: transparent;
+  border: 1px solid var(--bdr);
+  border-radius: var(--r-md);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background .2s;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-ghost:hover { border-color: var(--bdr-2); color: var(--text); background: rgba(240,235,225,0.04); }
+
+.card {
+  background: var(--bg-card);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--bdr);
+  border-radius: var(--r-xl);
+  padding: 26px;
+}
+
+@keyframes fadeUp   { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+@keyframes slideDown{ from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+@keyframes shrinkBar{ from { width:100%; } to { width:0%; } }
+@keyframes blink    { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+@keyframes bgZoom   { from{transform:scale(1.05);} to{transform:scale(1);} }
+@keyframes glow     { 0%,100%{opacity:.18;} 50%{opacity:.28;} }
+
+.anim-1{ animation: fadeUp .55s .05s ease both; }
+.anim-2{ animation: fadeUp .55s .12s ease both; }
+.anim-3{ animation: fadeUp .55s .20s ease both; }
+.anim-4{ animation: fadeUp .55s .28s ease both; }
+.anim-5{ animation: fadeUp .55s .36s ease both; }
